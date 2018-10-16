@@ -1,0 +1,23 @@
+version: '3'
+#--------------------
+volumes:
+  laravel-tutorial-pgsql-volume:
+    driver: 'local'
+#--------------------
+services:
+  laravel-tutorial:
+    build:
+      context: ./docker/laravel
+    ports:
+      - 8000:80
+    volumes:
+      - ./app:/var/www/html
+    depends_on:
+      - laravel-tutorial-postgres
+  laravel-tutorial-postgres:
+    image: postgres:10.3
+    volumes:
+      - laravel-tutorial-pgsql-volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
